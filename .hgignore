@@ -1,0 +1,12 @@
+# use glob syntax.
+syntax: glob
+*~
+*.hex
+*.elf
+*.o
+
+# switch to regexp syntax.
+syntax: regexp
+
+# no eagle backup copies named ".b#1", ".b#2", ".l#1", ".l##", etc...
+\#.$
