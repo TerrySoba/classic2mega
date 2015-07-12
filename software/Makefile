@@ -1,11 +1,15 @@
 CC      = avr-gcc
-CFLAGS  = -Wall -pedantic -Os
+CFLAGS  = -Wall -pedantic -Os -std=c99 -Werror
 DEVICE  = atmega16
-F_CPU   = 12000000	# in Hz
+F_CPU   = 16000000	# in Hz 16000000
 COMPILE = $(CC) $(CFLAGS) -DF_CPU=$(F_CPU) -mmcu=$(DEVICE)
-AVRDUDE = avrdude -c stk500v2 -p m32 -P /dev/ttyACM0
+AVRDUDE = avrdude -c stk500v2 -p m16 -P /dev/ttyACM0
 
-OBJECTS = main.o
+HFUSE = 0x99
+LFUSE = 0xCE
+
+
+OBJECTS = main.o twi_func.o
 
 %.o: %.c
 	$(COMPILE) -Wall -g -c $<
@@ -20,6 +24,9 @@ blob.hex: blob.elf
 
 flash: blob.hex
 	$(AVRDUDE) -U flash:w:blob.hex:i
+
+fuses:
+	$(AVRDUDE) -U hfuse:w:$(HFUSE):m -U lfuse:w:$(LFUSE):m
 
 all: blob.hex
 	
