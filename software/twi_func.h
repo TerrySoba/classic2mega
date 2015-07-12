@@ -5,6 +5,7 @@
 /***** ATTENTION ***** ATTENTION ***** ATTENTION *****/
 /*                                                   */
 /* This code has only been tested with the ATMEGA 8  */
+/*        Also seems to work on ATMEGA16A            */
 /*                                                   */
 /***** ATTENTION ***** ATTENTION ***** ATTENTION *****/
 

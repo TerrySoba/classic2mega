@@ -7,8 +7,6 @@
  * License: GNU GPL v2 (see License.txt), GNU GPL v3
  */
 
-#if 1
-
 #define TW_SCL 100000 // TWI frequency in Hz
 
 #include "twi_speed.h"
@@ -22,6 +20,7 @@
 #include "twi_func.h"
 
 #include <stdint.h>
+#include <stdbool.h>
 
 #define SLAVE_ADDR 0x52     /* address of classic controller and nunchuck */
 
@@ -257,9 +256,69 @@ void myInit(void) {
 }
 
 
+#define buttonPressed(button) ((reportBuffer.buttons[button/8] & (1 << (button%8))) != 0)
+
+typedef enum {
+	MEGADRIVE_A = 3,
+	MEGADRIVE_B = 2,
+	MEGADRIVE_C = 0,
+	MEGADRIVE_START = 1,
+	MEGADRIVE_LEFT = 5,
+	MEGADRIVE_RIGHT = 4,
+	MEGADRIVE_UP = 7,
+	MEGADRIVE_DOWN = 6
+} megadrive_button;
+
+/**
+ * Sets the megadrive port with given button number (0-7)
+ * to pressed state if pressed is true, to non pressed
+ * state otherwise.
+ * \param button The megadrive button to set
+ * \param pressed If true, button will be set to pressed, to unpressed otherwise.
+ */
+void setMegadriveButton(megadrive_button button, bool pressed)
+{
+	if (pressed)
+	{
+		// make pin an output and set to low
+		CLR_BIT(PORTA, button);
+		SET_BIT(DDRA, button);
+	} else {
+		// make pin an input (high impedance) and set to high (pull up)
+		CLR_BIT(DDRA, button);
+		SET_BIT(PORTA, button);
+	}
+}
+
+
+/**
+ * This function takes the global variable reportBuffer
+ * and sets the megadrive port accordingly.
+ */
 void setMegadrive()
 {
+	setMegadriveButton(MEGADRIVE_A, buttonPressed(BUTTON_Y));
+	setMegadriveButton(MEGADRIVE_B, buttonPressed(BUTTON_X) || buttonPressed(BUTTON_B));
+	setMegadriveButton(MEGADRIVE_C, buttonPressed(BUTTON_A));
+	setMegadriveButton(MEGADRIVE_START, buttonPressed(BUTTON_START));
+	setMegadriveButton(MEGADRIVE_LEFT, buttonPressed(BUTTON_LEFT));
+	setMegadriveButton(MEGADRIVE_RIGHT, buttonPressed(BUTTON_RIGHT));
+	setMegadriveButton(MEGADRIVE_UP, buttonPressed(BUTTON_UP));
+	setMegadriveButton(MEGADRIVE_DOWN, buttonPressed(BUTTON_DOWN));
+}
 
+
+/**
+ *  This function sets the outputs used by the megadrive plug to
+ *  high impedance and pull down.
+ */
+void setupMegadrive()
+{
+	// all inputs == high impedance
+	DDRA = 0x00;
+
+	// all low == pulldown
+	PORTA = 0x00;
 }
 
 
@@ -280,21 +339,21 @@ int main(void)
 
     sei();
     myInit();
-   
+    setupMegadrive();
+
     for(;;){                /* main event loop */
         wdt_reset();
         fillReportWithWii();
         
-
 		setMegadrive();
-
 		
-		if ((reportBuffer.buttons[0] & 1) == 1) {
+		// light led when x button is pressed
+		// if ((reportBuffer.buttons[0] & 1) == 1) {
+		if (buttonPressed(BUTTON_X)) {
 			SET_BIT(PORTD, 0);
 		} else {
 			CLR_BIT(PORTD, 0);
 		}
-
 
         /* If the gamepad starts feeding us 0xff, we have to restart to recover */
         if ((rawData[0] == 0xff) && (rawData[1] == 0xff) && (rawData[2] == 0xff) && (rawData[3] == 0xff) && (rawData[4] == 0xff) && (rawData[5] == 0xff)) {
@@ -303,44 +362,3 @@ int main(void)
     }
     return 0;
 }
-
-/* ------------------------------------------------------------------------- */
-
-
-
-
-
-
-
-#else
-// blink LED
-
-
-#include "bit_tools.h"
-
-#include <avr/io.h>
-#include <avr/wdt.h>
-#include <avr/interrupt.h>  /* for sei() */
-#include <util/delay.h>     /* for _delay_ms() */
-
-
-int main()
-{
-	wdt_disable();
-
-	// Aktiviere PIN0 von PORT D.
-    SET_BIT(DDRD, 0);
- 
-    // Hauptschleife des Programms
-    while (1) 
-    {
-		SET_BIT(PORTD, 0);
-		_delay_ms(500);
-		CLR_BIT(PORTD, 0);
-		_delay_ms(500);
-    }
-
-	return 0;
-}
-
-#endif
