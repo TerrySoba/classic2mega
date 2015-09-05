@@ -295,15 +295,27 @@ void setMegadriveButton(megadrive_button button, bool pressed)
  * This function takes the global variable reportBuffer
  * and sets the megadrive port accordingly.
  */
-void setMegadrive()
+void setMegadrive(bool jumpAndRunMode)
 {
-	setMegadriveButton(MEGADRIVE_A, buttonPressed(BUTTON_Y));
-	setMegadriveButton(MEGADRIVE_B, buttonPressed(BUTTON_X) || buttonPressed(BUTTON_B));
-	setMegadriveButton(MEGADRIVE_C, buttonPressed(BUTTON_A));
-	setMegadriveButton(MEGADRIVE_START, buttonPressed(BUTTON_START));
+    if (jumpAndRunMode)
+    {
+        setMegadriveButton(MEGADRIVE_A, false);
+        setMegadriveButton(MEGADRIVE_B, buttonPressed(BUTTON_A) || buttonPressed(BUTTON_B));
+        setMegadriveButton(MEGADRIVE_C, false);
+        setMegadriveButton(MEGADRIVE_START, false);
+        setMegadriveButton(MEGADRIVE_UP, buttonPressed(BUTTON_X) || buttonPressed(BUTTON_Y) || buttonPressed(BUTTON_UP));
+    }
+    else
+    {
+        setMegadriveButton(MEGADRIVE_A, buttonPressed(BUTTON_Y));
+        setMegadriveButton(MEGADRIVE_B, buttonPressed(BUTTON_X) || buttonPressed(BUTTON_B));
+        setMegadriveButton(MEGADRIVE_C, buttonPressed(BUTTON_A));
+        setMegadriveButton(MEGADRIVE_START, buttonPressed(BUTTON_START));
+        setMegadriveButton(MEGADRIVE_UP, buttonPressed(BUTTON_UP));
+    }
+
 	setMegadriveButton(MEGADRIVE_LEFT, buttonPressed(BUTTON_LEFT));
 	setMegadriveButton(MEGADRIVE_RIGHT, buttonPressed(BUTTON_RIGHT));
-	setMegadriveButton(MEGADRIVE_UP, buttonPressed(BUTTON_UP));
 	setMegadriveButton(MEGADRIVE_DOWN, buttonPressed(BUTTON_DOWN));
 }
 
@@ -326,7 +338,7 @@ void setupMegadrive()
 
 int main(void)
 {
-    // uint8_t   i;
+    bool jumpAndRunMode = false;
     start:
     cli();
     wdt_disable();
@@ -345,13 +357,19 @@ int main(void)
         wdt_reset();
         fillReportWithWii();
         
-		setMegadrive();
-		
-		// light led when x button is pressed
-		// if ((reportBuffer.buttons[0] & 1) == 1) {
-		if (buttonPressed(BUTTON_X)) {
+        setMegadrive(jumpAndRunMode);
+
+        if (buttonPressed(BUTTON_HOME) && buttonPressed(BUTTON_START))
+        {
+            // enable jump and run mode
+            jumpAndRunMode = true;
 			SET_BIT(PORTD, 0);
-		} else {
+        }
+
+        if (buttonPressed(BUTTON_HOME) && buttonPressed(BUTTON_SELECT))
+        {
+            // disable jump and run mode
+            jumpAndRunMode = false;
 			CLR_BIT(PORTD, 0);
 		}
 
