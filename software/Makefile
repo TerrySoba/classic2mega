@@ -30,3 +30,6 @@ fuses:
 
 all: blob.hex
 	
+clean:
+	rm -f $(OBJECTS)
+	rm -f blob.elf blob.hex
