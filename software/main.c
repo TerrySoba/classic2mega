@@ -157,6 +157,12 @@ void myInit(void) {
     fillReportWithWii();
 }
 
+
+/**
+ * This enum maps megadrive buttons to the io pin of PORTA
+ * of the ATMEGA16.
+ *  e.g. 3 means PA3.
+ */
 typedef enum {
     MEGADRIVE_A = 3,
     MEGADRIVE_B = 2,
@@ -167,6 +173,22 @@ typedef enum {
     MEGADRIVE_UP = 7,
     MEGADRIVE_DOWN = 6
 } megadrive_button;
+
+
+/**
+ * This enum amiga mouse signals to the io pin of PORTA
+ * of the ATMEGA16.
+ *  e.g. 3 means PA3.
+ */
+typedef enum {
+	MOUSE_V_PULSE = 7,
+	MOUSE_VQ_PULSE = 5,
+	MOUSE_H_PULSE = 6,
+	MOUSE_HQ_PULSE = 4,
+	MOUSE_LEFT_BUTTON = 2,
+	MOUSE_RIGHT_BUTTON = 0,
+} mouse_signals;
+
 
 /**
  * Sets the megadrive port with given button number (0-7)
@@ -241,13 +263,15 @@ void setupMegadrive()
     PORTA = 0x00;
 }
 
+static int mouseStateHorizontal = 0;
+static int mouseStateVertical = 0;
 
 /* ------------------------------------------------------------------------- */
 
 int main(void)
 {
-    bool jumpAndRunMode = false;
-    bool delayMode = false;
+    // bool jumpAndRunMode = false;
+    // bool delayMode = false;
 
 start:
     cli();
@@ -270,11 +294,16 @@ start:
     myInit();
     setupMegadrive();
 
+    for (int i = 0; i < 8; ++i)
+    {
+    	setMegadriveButton(i, 0);
+    }
+
     for(;;){                /* main event loop */
         wdt_reset();
         fillReportWithWii();
         
-        setMegadrive(jumpAndRunMode, delayMode);
+        // setMegadrive(jumpAndRunMode, delayMode);
         // ++counter;
 
 //        if (reportBufferPos % REPORT_BUFFER_COUNT == 0) SET_BIT(PORTD, 0);
@@ -282,33 +311,80 @@ start:
 
         report_t report = reportBuffer[reportBufferPos];
 
-        if (buttonPressed(BUTTON_HOME, report) && buttonPressed(BUTTON_START, report))
+//        if (buttonPressed(BUTTON_HOME, report) && buttonPressed(BUTTON_START, report))
+//        {
+//            // enable jump and run mode
+//            jumpAndRunMode = true;
+//            // SET_BIT(PORTD, 0);
+//        }
+//
+//        if (buttonPressed(BUTTON_HOME, report) && buttonPressed(BUTTON_SELECT, report))
+//        {
+//            // disable jump and run mode
+//            jumpAndRunMode = false;
+//            // CLR_BIT(PORTD, 0);
+//        }
+//
+//        if (buttonPressed(BUTTON_HOME, report) && buttonPressed(BUTTON_DOWN, report))
+//        {
+//            // enable delay mode
+//            delayMode = true;
+//            SET_BIT(PORTD, 0);
+//        }
+//
+//        if (buttonPressed(BUTTON_HOME, report) && buttonPressed(BUTTON_UP, report))
+//        {
+//            // disable delay mode
+//            delayMode = false;
+//            CLR_BIT(PORTD, 0);
+//        }
+
+        if (buttonPressed(BUTTON_LEFT, report)) --mouseStateHorizontal;
+        if (buttonPressed(BUTTON_RIGHT, report)) ++mouseStateHorizontal;
+        if (buttonPressed(BUTTON_DOWN, report)) ++mouseStateVertical;
+        if (buttonPressed(BUTTON_UP, report)) --mouseStateVertical;
+
+
+        switch(mouseStateHorizontal % 4)
         {
-            // enable jump and run mode
-            jumpAndRunMode = true;
-            // SET_BIT(PORTD, 0);
+        case 0:
+        	setMegadriveButton(MOUSE_H_PULSE, 0);
+        	setMegadriveButton(MOUSE_HQ_PULSE, 0);
+        	break;
+        case 1:
+			setMegadriveButton(MOUSE_H_PULSE, 1);
+			setMegadriveButton(MOUSE_HQ_PULSE, 0);
+			break;
+        case 2:
+			setMegadriveButton(MOUSE_H_PULSE, 1);
+			setMegadriveButton(MOUSE_HQ_PULSE, 1);
+			break;
+		case 3:
+			setMegadriveButton(MOUSE_H_PULSE, 0);
+			setMegadriveButton(MOUSE_HQ_PULSE, 1);
+			break;
         }
 
-        if (buttonPressed(BUTTON_HOME, report) && buttonPressed(BUTTON_SELECT, report))
-        {
-            // disable jump and run mode
-            jumpAndRunMode = false;
-            // CLR_BIT(PORTD, 0);
-        }
+        switch(mouseStateVertical % 4)
+		{
+		case 0:
+			setMegadriveButton(MOUSE_V_PULSE, 0);
+			setMegadriveButton(MOUSE_VQ_PULSE, 0);
+			break;
+		case 1:
+			setMegadriveButton(MOUSE_V_PULSE, 1);
+			setMegadriveButton(MOUSE_VQ_PULSE, 0);
+			break;
+		case 2:
+			setMegadriveButton(MOUSE_V_PULSE, 1);
+			setMegadriveButton(MOUSE_VQ_PULSE, 1);
+			break;
+		case 3:
+			setMegadriveButton(MOUSE_V_PULSE, 0);
+			setMegadriveButton(MOUSE_VQ_PULSE, 1);
+			break;
+		}
 
-        if (buttonPressed(BUTTON_HOME, report) && buttonPressed(BUTTON_DOWN, report))
-        {
-            // enable delay mode
-            delayMode = true;
-            SET_BIT(PORTD, 0);
-        }
-
-        if (buttonPressed(BUTTON_HOME, report) && buttonPressed(BUTTON_UP, report))
-        {
-            // disable delay mode
-            delayMode = false;
-            CLR_BIT(PORTD, 0);
-        }
 
         /* If the gamepad starts feeding us 0xff, we have to restart to recover */
         if ((rawData[0] == 0xff) && (rawData[1] == 0xff) && (rawData[2] == 0xff) && (rawData[3] == 0xff) && (rawData[4] == 0xff) && (rawData[5] == 0xff)) {
