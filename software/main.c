@@ -32,7 +32,7 @@ typedef struct {
 
 uint8_t rawData[6];
 
-#define REPORT_BUFFER_COUNT 8
+#define REPORT_BUFFER_COUNT 9
 
 static report_t reportBuffer[REPORT_BUFFER_COUNT];
 static int reportBufferPos = 0;
@@ -250,6 +250,63 @@ void setMegadrive(bool jumpAndRunMode, bool delayMode)
 }
 
 
+static volatile unsigned int mouseStateHorizontal = 0;
+static volatile unsigned int mouseStateVertical = 0;
+
+void setAmigaMouse()
+{
+	report_t report = reportBuffer[reportBufferPos];
+
+	if (buttonPressed(BUTTON_LEFT, report)) --mouseStateHorizontal;
+	if (buttonPressed(BUTTON_RIGHT, report)) ++mouseStateHorizontal;
+	if (buttonPressed(BUTTON_DOWN, report)) ++mouseStateVertical;
+	if (buttonPressed(BUTTON_UP, report)) --mouseStateVertical;
+
+	switch(mouseStateHorizontal % 4)
+	{
+	case 0:
+		setMegadriveButton(MOUSE_H_PULSE, 0);
+		setMegadriveButton(MOUSE_HQ_PULSE, 0);
+		break;
+	case 1:
+		setMegadriveButton(MOUSE_H_PULSE, 1);
+		setMegadriveButton(MOUSE_HQ_PULSE, 0);
+		break;
+	case 2:
+		setMegadriveButton(MOUSE_H_PULSE, 1);
+		setMegadriveButton(MOUSE_HQ_PULSE, 1);
+		break;
+	case 3:
+		setMegadriveButton(MOUSE_H_PULSE, 0);
+		setMegadriveButton(MOUSE_HQ_PULSE, 1);
+		break;
+	}
+
+	switch(mouseStateVertical % 4)
+	{
+	case 0:
+		setMegadriveButton(MOUSE_V_PULSE, 0);
+		setMegadriveButton(MOUSE_VQ_PULSE, 0);
+		break;
+	case 1:
+		setMegadriveButton(MOUSE_V_PULSE, 1);
+		setMegadriveButton(MOUSE_VQ_PULSE, 0);
+		break;
+	case 2:
+		setMegadriveButton(MOUSE_V_PULSE, 1);
+		setMegadriveButton(MOUSE_VQ_PULSE, 1);
+		break;
+	case 3:
+		setMegadriveButton(MOUSE_V_PULSE, 0);
+		setMegadriveButton(MOUSE_VQ_PULSE, 1);
+		break;
+	}
+
+
+	setMegadriveButton(MOUSE_LEFT_BUTTON, buttonPressed(BUTTON_A, report));
+	setMegadriveButton(MOUSE_RIGHT_BUTTON, buttonPressed(BUTTON_B, report));
+}
+
 /**
  *  This function sets the outputs used by the megadrive plug to
  *  high impedance and pull down.
@@ -263,15 +320,23 @@ void setupMegadrive()
     PORTA = 0x00;
 }
 
-static int mouseStateHorizontal = 0;
-static int mouseStateVertical = 0;
+
 
 /* ------------------------------------------------------------------------- */
 
+typedef enum _Mode
+{
+	UNINITIALIZED = 0,
+	MEGADRIVE_MODE = 1,
+	JUMP_RUN_MODE = 2,
+	AMIGA_MOUSE_MODE = 3,
+	DELAY_MODE = 4
+} AdapterMode;
+
 int main(void)
 {
-    // bool jumpAndRunMode = false;
-    // bool delayMode = false;
+	AdapterMode adapterMode = MEGADRIVE_MODE;
+	AdapterMode lastAdapterMode = UNINITIALIZED;
 
 start:
     cli();
@@ -294,96 +359,53 @@ start:
     myInit();
     setupMegadrive();
 
-    for (int i = 0; i < 8; ++i)
-    {
-    	setMegadriveButton(i, 0);
-    }
-
     for(;;){                /* main event loop */
         wdt_reset();
+
+        // check if mode has changed, if it did change then reset ports
+        if (adapterMode != lastAdapterMode)
+        {
+        	for (int i = 0; i < 8; ++i)
+            {
+            	setMegadriveButton(i, 0);
+            }
+        }
+        lastAdapterMode = adapterMode;
+
         fillReportWithWii();
         
-        // setMegadrive(jumpAndRunMode, delayMode);
-        // ++counter;
-
-//        if (reportBufferPos % REPORT_BUFFER_COUNT == 0) SET_BIT(PORTD, 0);
-//        else CLR_BIT(PORTD, 0);
+        if (adapterMode == AMIGA_MOUSE_MODE) {
+        	setAmigaMouse();
+        } else {
+        	setMegadrive(adapterMode == JUMP_RUN_MODE, adapterMode == DELAY_MODE);
+        }
 
         report_t report = reportBuffer[reportBufferPos];
 
-//        if (buttonPressed(BUTTON_HOME, report) && buttonPressed(BUTTON_START, report))
-//        {
-//            // enable jump and run mode
-//            jumpAndRunMode = true;
-//            // SET_BIT(PORTD, 0);
-//        }
-//
-//        if (buttonPressed(BUTTON_HOME, report) && buttonPressed(BUTTON_SELECT, report))
-//        {
-//            // disable jump and run mode
-//            jumpAndRunMode = false;
-//            // CLR_BIT(PORTD, 0);
-//        }
-//
-//        if (buttonPressed(BUTTON_HOME, report) && buttonPressed(BUTTON_DOWN, report))
-//        {
-//            // enable delay mode
-//            delayMode = true;
-//            SET_BIT(PORTD, 0);
-//        }
-//
-//        if (buttonPressed(BUTTON_HOME, report) && buttonPressed(BUTTON_UP, report))
-//        {
-//            // disable delay mode
-//            delayMode = false;
-//            CLR_BIT(PORTD, 0);
-//        }
-
-        if (buttonPressed(BUTTON_LEFT, report)) --mouseStateHorizontal;
-        if (buttonPressed(BUTTON_RIGHT, report)) ++mouseStateHorizontal;
-        if (buttonPressed(BUTTON_DOWN, report)) ++mouseStateVertical;
-        if (buttonPressed(BUTTON_UP, report)) --mouseStateVertical;
-
-
-        switch(mouseStateHorizontal % 4)
+        if (buttonPressed(BUTTON_B, report) && buttonPressed(BUTTON_SELECT, report) && buttonPressed(BUTTON_UP, report))
         {
-        case 0:
-        	setMegadriveButton(MOUSE_H_PULSE, 0);
-        	setMegadriveButton(MOUSE_HQ_PULSE, 0);
-        	break;
-        case 1:
-			setMegadriveButton(MOUSE_H_PULSE, 1);
-			setMegadriveButton(MOUSE_HQ_PULSE, 0);
-			break;
-        case 2:
-			setMegadriveButton(MOUSE_H_PULSE, 1);
-			setMegadriveButton(MOUSE_HQ_PULSE, 1);
-			break;
-		case 3:
-			setMegadriveButton(MOUSE_H_PULSE, 0);
-			setMegadriveButton(MOUSE_HQ_PULSE, 1);
-			break;
+        	adapterMode = JUMP_RUN_MODE;
+        	CLR_BIT(PORTD, 0);
         }
 
-        switch(mouseStateVertical % 4)
-		{
-		case 0:
-			setMegadriveButton(MOUSE_V_PULSE, 0);
-			setMegadriveButton(MOUSE_VQ_PULSE, 0);
-			break;
-		case 1:
-			setMegadriveButton(MOUSE_V_PULSE, 1);
-			setMegadriveButton(MOUSE_VQ_PULSE, 0);
-			break;
-		case 2:
-			setMegadriveButton(MOUSE_V_PULSE, 1);
-			setMegadriveButton(MOUSE_VQ_PULSE, 1);
-			break;
-		case 3:
-			setMegadriveButton(MOUSE_V_PULSE, 0);
-			setMegadriveButton(MOUSE_VQ_PULSE, 1);
-			break;
-		}
+        if (buttonPressed(BUTTON_B, report) && buttonPressed(BUTTON_SELECT, report) && buttonPressed(BUTTON_DOWN, report))
+        {
+        	adapterMode = MEGADRIVE_MODE;
+        	CLR_BIT(PORTD, 0);
+        }
+
+        if (buttonPressed(BUTTON_B, report) && buttonPressed(BUTTON_SELECT, report) && buttonPressed(BUTTON_LEFT, report))
+        {
+        	adapterMode = AMIGA_MOUSE_MODE;
+            CLR_BIT(PORTD, 0);
+        }
+
+        if (buttonPressed(BUTTON_A, report) && buttonPressed(BUTTON_START, report) && buttonPressed(BUTTON_RIGHT, report))
+        {
+            adapterMode = DELAY_MODE;
+            SET_BIT(PORTD, 0);
+        }
+
 
 
         /* If the gamepad starts feeding us 0xff, we have to restart to recover */
