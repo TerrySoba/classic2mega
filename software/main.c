@@ -230,10 +230,10 @@ void setMegadrive(bool jumpAndRunMode, bool delayMode)
     if (jumpAndRunMode)
     {
         setMegadriveButton(MEGADRIVE_A, false);
-        setMegadriveButton(MEGADRIVE_B, buttonPressed(BUTTON_A, report) || buttonPressed(BUTTON_B, report));
+        setMegadriveButton(MEGADRIVE_B, buttonPressed(BUTTON_X, report) || buttonPressed(BUTTON_Y, report));
         setMegadriveButton(MEGADRIVE_C, false);
         setMegadriveButton(MEGADRIVE_START, false);
-        setMegadriveButton(MEGADRIVE_UP, buttonPressed(BUTTON_X, report) || buttonPressed(BUTTON_Y, report) || buttonPressed(BUTTON_UP, report));
+        setMegadriveButton(MEGADRIVE_UP, buttonPressed(BUTTON_A, report) || buttonPressed(BUTTON_B, report) || buttonPressed(BUTTON_UP, report));
     }
     else
     {
