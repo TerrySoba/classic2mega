@@ -17,3 +17,6 @@ It also has a mode to use a Classic Controller as an Amiga mouse.
  * Jump And Run Modew
  * Amiga Mouse Mode
  * Delay Mode
+
+
+[Building Instructions (german)](doc/building_instructions_de.md)
