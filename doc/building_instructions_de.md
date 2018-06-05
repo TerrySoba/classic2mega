@@ -12,14 +12,14 @@ Die benötigten Bauelemente sind in folgender Liste aufgeführt:
 
 
 | Name | Value | Package | Farnell Number | Unit Price (EUR) | Count |
-|------|-------|---------|----------------|------------------|-------|
+|------|------:|---------|---------------:|-----------------:|-------|
 |NXP PCA9306D|  IC	|	SO08|	2212070|	0.598|	1|
 |Atmel ATMEGA16A|	|	TQFP44|	2425121|	4.43|	1|
 |MICROCHIP MCP1700T-3302E/TT|	|	SOT-23|	1296592|	0.386|	1|
 |MC74HC157ADG|	|	SO16|	9666940|	0.4|	1|
 |VISHAY VLMC310|	|	PLCC-2|	1659076|	0.105|	1|
 |RALTRON AS-16.000-18 QUARZ |	|	HC49/S|	1611761|	0.249|	1|
-|LUMBERG  NEB 21 R|	|		1217037|	0.919|	1|
+|LUMBERG  NEB 21 R|	| |		1217037|	0.919|	1|
 |TSM2310| |		SOT-23|	1864585|	0.121|	1|
 |Varistor| EZJZ1V120KA	|	“0605”|	1780509|	0.171|	1|
 |Capacitor|	100nF|	“0805”|	1759166|	0.013|	3|
@@ -34,11 +34,6 @@ Die benötigten Bauelemente sind in folgender Liste aufgeführt:
 |Resistor|	1M|	“0805”|	2447596|	0.0029|	1|
 |Resistor|	1.5k|	“0805”|	2447592|	0.0025|	1|
 |Con-subd|	|		|1653978|	0.93|	1|
-
-
-
-
-
 
 
 
