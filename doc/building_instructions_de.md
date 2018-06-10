@@ -4,7 +4,7 @@ Dieses Dokument beschreibt wie der Adapter gebaut werden kann.
 
 ## Schwierigkeitsgrad
 
-Der Adapter verwendet SMD-Kompomnenten in relativ kleinen Größen, wie z.B. TQFP, welche Abstände von nur 0.5mm zwischen den Pins aufweisen. Diese Bauelemente zu Verlöten erfordert etwas Geschick.
+Der Adapter verwendet SMD-Kompomnenten in relativ kleinen Größen, wie z.B. TQFP, welche Abstände von nur 0.5mm zwischen den Pins aufweisen. Diese Bauelemente zu verlöten erfordert etwas Geschick.
 
 ## Benötigte Materialien
 
@@ -30,6 +30,10 @@ Die benötigten Bauelemente sind in folgender Liste aufgeführt:
 | R7 |Resistor|	1M|	“0805”|	2447596|	0.0029|	1|
 | R8 |Resistor|	1.5k|	“0805”|	2447592|	0.0025|	1|
 | X1 |Con-subd|	|		|1653978|	0.93|	1|
+
+Hier ist eine vorbereiteter Warenkorb bei Reichelt, der alle benötigten Bauteile enthält.
+
+https://www.reichelt.de/my/1480338 (liste is bisher ungetestet...)
 
 
 Darüberhinaus werden folgenden allgemeinere Werkzeuge benötigt:
