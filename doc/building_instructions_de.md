@@ -13,11 +13,11 @@ Die benötigten Bauelemente sind in folgender Liste aufgeführt:
 
 | Symbol | Name | Value | Package | Farnell Number | Unit Price (EUR) | Count |
 |--------|------|------:|---------|---------------:|-----------------:|-------|
-| U$2 |NXP PCA9306D|  IC	|	SO08|	2212070|	0.598|	1|
+| U2 |NXP PCA9306D|  IC	|	SO08|	2212070|	0.598|	1|
 | IC1 |Atmel ATMEGA16A|	|	TQFP44|	2425121|	4.43|	1|
-| U$1 |MICROCHIP MCP1700T-3302E/TT|	|	SOT-23|	1296592|	0.386|	1|
+| U1 |MICROCHIP MCP1700T-3302E/TT|	|	SOT-23|	1296592|	0.386|	1|
 | IC2 |MC74HC157ADG|	|	SO16|	9666940|	0.4|	1|
-| U$3 |VISHAY VLMC310|	|	PLCC-2|	1659076|	0.105|	1|
+| H1 |VISHAY VLMC310|	|	PLCC-2|	1659076|	0.105|	1|
 | Q2 |RALTRON AS-16.000-18 QUARZ |	|	HC49/S|	1611761|	0.249|	1|
 | X2 |LUMBERG  NEB 21 R|	| |		1217037|	0.919|	1|
 | U$4 |TSM2310| |		SOT-23|	1864585|	0.121|	1|
