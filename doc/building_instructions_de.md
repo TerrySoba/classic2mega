@@ -43,5 +43,6 @@ Darüberhinaus werden folgenden allgemeinere Werkzeuge benötigt:
  * (Optional) Flussmittel
  * (Optional) SMD Pinzette
  * Seitenschneider
+ * Programmieradapter für Atmel ATMega (auf ebay für unter 5€ zu bekommen, z.B. https://www.ebay.de/itm/162947756172)
 
 
