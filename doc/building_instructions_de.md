@@ -46,3 +46,9 @@ Darüberhinaus werden folgenden allgemeinere Werkzeuge benötigt:
  * Programmieradapter für Atmel ATMega (auf ebay für unter 5€ zu bekommen, z.B. https://www.ebay.de/itm/162947756172)
 
 
+## Top Layer
+<a href="images/top_layer.png"><img src="images/top_layer.png" width="400"></a>
+
+## Bottom Layer
+<a href="images/bottom_layer.png"><img src="images/bottom_layer.png" width="400"></a>
+
