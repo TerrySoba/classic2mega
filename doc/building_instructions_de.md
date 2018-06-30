@@ -34,6 +34,7 @@ Die benötigten Bauelemente sind in folgender Liste aufgeführt:
 Hier ist eine vorbereiteter Warenkorb bei Reichelt, der alle benötigten Bauteile enthält.
 
 https://www.reichelt.de/my/1480338 (liste is bisher ungetestet...)
+Das Bauteil U2 ist falsch in der Reichelt Liste! Es muss ein SO08 package haben!
 
 
 Darüberhinaus werden folgenden allgemeinere Werkzeuge benötigt:
