@@ -4,6 +4,7 @@ DEVICE  = atmega16
 F_CPU   = 16000000	# in Hz 16000000
 COMPILE = $(CC) $(CFLAGS) -DF_CPU=$(F_CPU) -mmcu=$(DEVICE)
 AVRDUDE = avrdude -c stk500v2 -p m16 -P /dev/ttyACM0
+# AVRDUDE = avrdude -c usbasp-clone -p m16 -P /dev/ttyACM0
 
 HFUSE = 0x99
 LFUSE = 0xCE
