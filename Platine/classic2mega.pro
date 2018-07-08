@@ -2,12 +2,12 @@ EAGLE AutoRouter Statistics:
 
 Job           : /home/yoshi252/program_sources/classic2mega/Platine/classic2mega.brd
 
-Start at      : 19:49:17 (08.07.18)
-End at        : 19:49:25 (08.07.18)
+Start at      : 20:02:26 (08.07.18)
+End at        : 20:02:32 (08.07.18)
 Elapsed time  : 00:00:05
 
 Signals       :    29   RoutingGrid: 9 mil  Layers: 2
-Connections   :    74   predefined:  70 ( 3 Vias )
+Connections   :    74   predefined:  72 ( 3 Vias )
 
 Router memory :   518320
 
@@ -18,8 +18,8 @@ Number of Ripups  :         0         0         0         0         0         0 
 max. Level        :         0         0         0         0         0         0         0         0         0         0         0         0         0         0
 max. Total        :         0         0         0         0         0         0         0         0         0         0         0         0         0         0
 
-Routed            :         3         4         4         4         4         4         4         4         4         4         4         4         4         4
-Vias              :         0         0         0         0         0         0         0         0         0         0         0         0         0         0
-Resolution        :    98.6 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %
+Routed            :         2         2         2         2         2         2         2         2         2         2         2         2         2         2
+Vias              :         0         0         1         1         1         1         1         1         1         1         1         1         1         1
+Resolution        :   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %
 
 Final             : 100.0% finished
