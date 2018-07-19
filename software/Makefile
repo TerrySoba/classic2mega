@@ -1,13 +1,14 @@
 CC      = avr-gcc
 CFLAGS  = -Wall -pedantic -Os -std=c99 -Werror
-DEVICE  = atmega16
-F_CPU   = 16000000	# in Hz 16000000
+DEVICE  = atmega8
+F_CPU   = 8000000	# in Hz
 COMPILE = $(CC) $(CFLAGS) -DF_CPU=$(F_CPU) -mmcu=$(DEVICE)
-AVRDUDE = avrdude -c stk500v2 -p m16 -P /dev/ttyACM0
+# AVRDUDE = avrdude -c stk500v2 -p m8 -P /dev/ttyACM0
+AVRDUDE = avrdude -c usbasp-clone -p m8 -P /dev/ttyACM0
 # AVRDUDE = avrdude -c usbasp-clone -p m16 -P /dev/ttyACM0
 
-HFUSE = 0x99
-LFUSE = 0xCE
+HFUSE = 0xD9
+LFUSE = 0xE4
 
 
 OBJECTS = main.o twi_func.o

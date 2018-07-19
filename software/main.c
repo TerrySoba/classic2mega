@@ -159,9 +159,9 @@ void myInit(void) {
 
 
 /**
- * This enum maps megadrive buttons to the io pin of PORTA
- * of the ATMEGA16.
- *  e.g. 3 means PA3.
+ * This enum maps megadrive buttons to the io pin of PORTD
+ * of the ATMEGA8.
+ *  e.g. 3 means PD3.
  */
 typedef enum {
     MEGADRIVE_A = 3,
@@ -176,9 +176,9 @@ typedef enum {
 
 
 /**
- * This enum amiga mouse signals to the io pin of PORTA
- * of the ATMEGA16.
- *  e.g. 3 means PA3.
+ * This enum amiga mouse signals to the io pin of PORTD
+ * of the ATMEGA8.
+ *  e.g. 3 means PD3.
  */
 typedef enum {
 	MOUSE_V_PULSE = 7,
@@ -202,12 +202,12 @@ void setMegadriveButton(megadrive_button button, bool pressed)
     if (pressed)
     {
         // make pin an output and set to low
-        CLR_BIT(PORTA, button);
-        SET_BIT(DDRA, button);
+        CLR_BIT(PORTD, button);
+        SET_BIT(DDRD, button);
     } else {
         // make pin an input (high impedance) and set to high (pull up)
-        CLR_BIT(DDRA, button);
-        SET_BIT(PORTA, button);
+        CLR_BIT(DDRD, button);
+        SET_BIT(PORTD, button);
     }
 }
 
@@ -314,10 +314,10 @@ void setAmigaMouse()
 void setupMegadrive()
 {
     // all inputs == high impedance
-    DDRA = 0x00;
+    DDRD = 0x00;
 
     // all low == pulldown
-    PORTA = 0x00;
+    PORTD = 0x00;
 }
 
 
@@ -352,10 +352,11 @@ start:
         reportBuffer[i].buttons[1] = 0;
     }
 
-    // make PORTD_0 (LED) an output pin
-    SET_BIT(DDRD, 0);
+    // make PORTC_0 (LED) an output pin
+    SET_BIT(DDRC, 0);
 
     sei();
+
     myInit();
     setupMegadrive();
 
@@ -385,27 +386,26 @@ start:
         if (buttonPressed(BUTTON_B, report) && buttonPressed(BUTTON_SELECT, report) && buttonPressed(BUTTON_UP, report))
         {
         	adapterMode = JUMP_RUN_MODE;
-        	CLR_BIT(PORTD, 0);
+        	CLR_BIT(PORTC, 0);
         }
 
         if (buttonPressed(BUTTON_B, report) && buttonPressed(BUTTON_SELECT, report) && buttonPressed(BUTTON_DOWN, report))
         {
         	adapterMode = MEGADRIVE_MODE;
-        	CLR_BIT(PORTD, 0);
+        	CLR_BIT(PORTC, 0);
         }
 
         if (buttonPressed(BUTTON_B, report) && buttonPressed(BUTTON_SELECT, report) && buttonPressed(BUTTON_LEFT, report))
         {
         	adapterMode = AMIGA_MOUSE_MODE;
-            CLR_BIT(PORTD, 0);
+            CLR_BIT(PORTC, 0);
         }
 
         if (buttonPressed(BUTTON_A, report) && buttonPressed(BUTTON_START, report) && buttonPressed(BUTTON_RIGHT, report))
         {
             adapterMode = DELAY_MODE;
-            SET_BIT(PORTD, 0);
+            SET_BIT(PORTC, 0);
         }
-
 
 
         /* If the gamepad starts feeding us 0xff, we have to restart to recover */
