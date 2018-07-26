@@ -51,9 +51,14 @@ Darüberhinaus werden folgenden allgemeinere Werkzeuge benötigt:
  * Scharfes Messer zur Bearbeitung des Gehäuses
  * Kreuz-Schraubendreher
 
-## Top Layer
-<a href="images/top_layer.png"><img src="images/top_layer.png" width="400"></a>
+## PCB Top
+<a href="images/pcb_top.jpg"><img src="images/pcb_top.jpg" width="400"></a>
 
-## Bottom Layer
-<a href="images/bottom_layer.png"><img src="images/bottom_layer.png" width="400"></a>
+## PCB Bottom
+<a href="images/pcb_bottom.jpg"><img src="images/pcb_bottom.jpg" width="400"></a>
 
+## PCB Top Bestückt
+<a href="images/pcb_top_populated.jpg"><img src="images/pcb_top_populated.jpg" width="400"></a>
+
+## PCB Bottom Bestückt
+<a href="images/pcb_bottom_populated.jpg"><img src="images/pcb_bottom_populated.jpg" width="400"></a>
