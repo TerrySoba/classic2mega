@@ -39,13 +39,15 @@ https://aisler.net/p/YHRRFAVE
 
 
 
-Darüberhinaus werden folgenden allgemeinere Werkzeuge benötigt:
+Darüberhinaus werden folgenden Dinge benötigt:
 
+ * Wii Classic-Controller-Verlängerungskabel (bei eBay ab 5€ zu bekommen)
+ * Megadrive Verlängerungskabel (bei eBay ab 5€ zu bekommen)
  * Lötkolben
  * Lötzinn
  * SMD Pinzette
  * Seitenschneider
- * Programmieradapter für Atmel ATMega (auf ebay für unter 5€ zu bekommen, z.B. https://www.ebay.de/itm/162947756172)
+ * Programmieradapter für Atmel ATMega (auf eBay für unter 5€ zu bekommen, z.B. https://www.ebay.de/itm/162947756172)
  * (Optional, aber empfohlen) Multimeter
  * Kabelbinder (Zur Zugentlastung des Wii-Kabels)
  * Scharfes Messer zur Bearbeitung des Gehäuses
