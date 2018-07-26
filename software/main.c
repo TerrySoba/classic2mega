@@ -355,6 +355,16 @@ start:
     // make PORTC_0 (LED) an output pin
     SET_BIT(DDRC, 0);
 
+    for (int i = 0; i < 5; ++i)
+    {
+	SET_BIT(PORTC, 0);
+	_delay_ms(50);
+	CLR_BIT(PORTC, 0);
+	_delay_ms(50);
+	
+    }
+
+
     sei();
 
     myInit();
