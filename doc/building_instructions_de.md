@@ -12,7 +12,7 @@ Die benötigten Bauelemente sind in folgender Liste aufgeführt:
 
 
 | Symbol | Name | Value | Package | Reichelt Number | Count |
-|--------|------|------:|---------|---------------:|-----------------:|-------|
+|--------|------|------:|---------|---------------:|-----------------:|
 | U2,U3 | BSS 138 SMD | N-Channel MOSFET | SOT-23 | BSS 138 SMD | 2 |
 | IC3 |Atmel ATMEGA 8A-PU|	|	DIL-28|	ATMEGA 8A-PU |	1|
 | U1 |MICROCHIP MCP1700T-3302E/TT| 3.3V LDO |	SOT-23|	MCP 1700-3302|		1|
@@ -34,18 +34,22 @@ Hier ist eine vorbereiteter Warenkorb bei Reichelt, der alle benötigten Bauteil
 
 https://www.reichelt.de/my/1487551
 
+Die (unbestückte) Platine kann unter folgendem Link bestellt werden: 
+https://aisler.net/p/YHRRFAVE
+
+
 
 Darüberhinaus werden folgenden allgemeinere Werkzeuge benötigt:
 
  * Lötkolben
  * Lötzinn
- * (Optional) Flussmittel
  * SMD Pinzette
  * Seitenschneider
  * Programmieradapter für Atmel ATMega (auf ebay für unter 5€ zu bekommen, z.B. https://www.ebay.de/itm/162947756172)
+ * (Optional, aber empfohlen) Multimeter
  * Kabelbinder (Zur Zugentlastung des Wii-Kabels)
  * Scharfes Messer zur Bearbeitung des Gehäuses
-
+ * Kreuz-Schraubendreher
 
 ## Top Layer
 <a href="images/top_layer.png"><img src="images/top_layer.png" width="400"></a>
