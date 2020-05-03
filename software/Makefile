@@ -1,7 +1,7 @@
 CC      = avr-gcc
 CFLAGS  = -Wall -pedantic -Os -std=c99 -Werror
 DEVICE  = atmega8
-F_CPU   = 8000000	# in Hz
+F_CPU   = 16000000	# in Hz
 COMPILE = $(CC) $(CFLAGS) -DF_CPU=$(F_CPU) -mmcu=$(DEVICE)
 # AVRDUDE = avrdude -c stk500v2 -p m8 -P /dev/ttyACM0
 AVRDUDE = avrdude -c usbasp-clone -p m8 -P /dev/ttyACM0

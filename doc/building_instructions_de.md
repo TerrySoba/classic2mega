@@ -47,7 +47,7 @@ Darüberhinaus werden folgenden Dinge benötigt:
  * Lötzinn
  * SMD Pinzette
  * Seitenschneider
- * Programmieradapter für Atmel ATMega (auf eBay für unter 5€ zu bekommen, z.B. https://www.ebay.de/itm/162947756172)
+ * Programmieradapter für Atmel ATMega (ISP-Programmierer) (auf eBay für unter 10€ zu bekommen, z.B. https://www.ebay.de/itm/USBasp-3-3V-5V-ISP-Programmiergerat-USB-Programmer-fur-Atmel-AVR-und-Arduino/252061647559)
  * (Optional, aber empfohlen) Multimeter
  * Kabelbinder (Zur Zugentlastung des Wii-Kabels)
  * Scharfes Messer zur Bearbeitung des Gehäuses
@@ -64,3 +64,11 @@ Darüberhinaus werden folgenden Dinge benötigt:
 
 ## PCB Bottom Bestückt
 <a href="images/pcb_bottom_populated.jpg"><img src="images/pcb_bottom_populated.jpg" width="400"></a>
+
+## Firmwareinstallation
+
+Um die Firmware auf dem ATMEGA8 zu installieren ist ein ISP-Programmierer und die zugehörige Software nötig.
+Die Firmware kann hier heruntergeladen werden: <a href="firmware.hex">firmware.hex</a>
+Außerdem müssen auf dem ATMEGA8 die folgenden Fuses gesetz werden:
+HFUSE = 0xD9
+LFUSE = 0xE4
